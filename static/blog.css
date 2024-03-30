@@ -1,0 +1,63 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Popins', sans-serif;
+
+}
+body {
+    background-color: black;
+    color: white;
+}
+.container{
+    padding: 10px 10%;
+}
+.button1{
+    display: inline-block;
+    margin: 50px auto;
+    width: fit-content;
+    border: 1px solid #dc0b0b;
+    padding: 12px 40px;
+    border-radius: 7px;
+    text-decoration: none;
+    color: white;
+    background-color: black;
+    
+}
+.button1:hover{
+    background-color: #dc0b0b;
+    transition: 0.5s;
+    
+}
+form{
+    width: 100%;
+}
+form textarea, input{
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #dc0b0b;
+    border-radius: 5px;
+    background-color: #222121;
+    color: white;
+}
+.like{
+    display: flex;
+}
+.like p{
+    margin: 0px 10px;
+}
+.comments{
+    /* background-color: #222121; */
+    height: fit-content;
+    padding: 10px;
+}
+.comments .comment{
+    margin: 10px 0;
+    border: 1px solid #3e3e3e;
+    padding: 5px;
+    background-color: #222121;
+}
+.user{
+    color: #dc0b0b;
+}

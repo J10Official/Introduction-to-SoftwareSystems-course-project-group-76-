@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Admin Dashboard</title>
+    <style>
+        .user-details {
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: black;
+        }
+
+        * {
+            background-color: black;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .button1 {
+            display: inline-block;
+            width: fit-content;
+            border: 1px solid #dc0b0b;
+            padding: 12px 40px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: white;
+            background-color: black;
+
+        }
+
+        .button1:hover {
+            background-color: #dc0b0b;
+            transition: 0.5s;
+
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <li><strong>Admin Dashboard</strong></li>
+        </ul>
+        <ul>
+            <li><a href="homepage.html" style="color: #dc0b0b;">Home</a></li>
+            <!-- <li><a href="" style="color: #dc0b0b;">Settings</a></li> -->
+            <li><a href="login.html" role="button" class="button1">Logout</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        <div class="grid">
+            <section>
+                <hgroup>
+                    <h2>User Details</h2>
+                    <h3>Logged-in Users</h3>
+                </hgroup>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        {% endfor %}
+                        <!-- JavaScript will append new rows here -->
+                    </tbody>
+                </table>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            const existingUsers = new Map(); // To keep track of existing users
+
+            function updateUserTable(user) {
+                if (!existingUsers.has(user.email)) { // Check if user doesn't already exist
+                    const tbody = document.querySelector('table.table tbody');
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${user.name}</td><td>${user.username}</td><td>${user.email}</td>`;
+                    tbody.appendChild(tr);
+                    existingUsers.set(user.email, true); // Mark this user as added
+                }
+            }
+
+            setInterval(function() {
+                fetch('/api/users')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(user => updateUserTable(user));
+                })
+                .catch(error => console.error('Error:', error));
+            }, 1000); // Update every second
+        });
+
+        </script>
+        </section>
+        </div>
+    </main>
+</body>
+
+</html>

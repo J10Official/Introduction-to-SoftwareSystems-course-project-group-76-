@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Dark Theme Landing Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: black;
+            color: #fff;
+        }
+
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: black;
+            color: white;
+            border: 1px solid #dc0b0b;
+            cursor: pointer;
+            transition: background-color 0.5s;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background-color: #dc0b0b;
+        }
+
+        .about-section {
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .button1 {
+            display: block;
+            margin: 50px auto;
+            width: fit-content;
+
+            padding: 12px 40px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: white;
+            background-color: black;
+        }
+
+        .button1:hover {
+
+            transition: 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Our Platform</h1>
+            <p>Join us and explore endless possibilities.</p>
+        </div>
+        <div class="button-group">
+            <button class="btn" onclick="login()">Sign In</button>
+            <button class="btn" onclick="signup()">Sign Up</button>
+        </div>
+        <div class="about-section">
+            <h2>About Us</h2>
+            <p>We aim to provide an immersive experience that captivates and engages our audience. Discover a world
+                where creativity meets functionality.
+                We are hard working team of three with passion for excellence and innovation. We are committed to
+                providing the best experience for our users.
+            </p>
+        </div>
+    </div>
+</body>
+<script>
+    function login() {
+        // Redirect to login.html
+        window.location.href = 'login.html';
+    }
+    
+    function signup() {
+        // Redirect to login.html
+        window.location.href = 'signup.html';
+    }
+
+</script>
+
+</html>

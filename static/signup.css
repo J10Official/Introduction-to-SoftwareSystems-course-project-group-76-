@@ -1,0 +1,103 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+
+}
+body {
+    background-color: black;
+    color: white;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    padding: 10px 10%;
+}
+.button1{
+    display: block;
+    margin: 50px auto;
+    width: fit-content;
+    border: 1px solid #dc0b0b;
+    padding: 12px 40px;
+    border-radius: 7px;
+    text-decoration: none;
+    color: white;
+    background-color: black;
+    
+}
+.button1:hover{
+    background-color: #dc0b0b;
+    transition: 0.5s;    
+}
+.login-form{
+    display:block;
+    align-items: center;
+
+}
+.loginbox h1{
+    text-align: center;
+    margin: 50px 0;
+}
+  
+form{
+    width: 90%;
+    align-items: center;
+    margin: 50px 0;
+    padding: 20px;
+    border: 1px solid #dc0b0b;
+    border-radius: 5px;
+    background-color: #030303;
+    color: white;
+}
+form textarea, input{
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #dc0b0b;
+    border-radius: 5px;
+    background-color: #222121;
+    color: white;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    margin: 0; 
+    background-color: black;
+    color: white; 
+}
+
+.container {
+    width: 90%; 
+    max-width: 600px; 
+}
+
+.loginbox {
+    width: 100%; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+form {
+    margin: 0 auto; 
+    text-align: left; 
+}
+
+form input, form button {
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 10px; 
+}
+
+.button1 {
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+

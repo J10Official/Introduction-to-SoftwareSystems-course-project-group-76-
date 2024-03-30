@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Upload new File</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Upload new File</h1>
+        <form action="/addimages" method="post" class="dropzone" id="my-dropzone" enctype="multipart/form-data">
+            <div class="fallback">
+                <input name="file" type="file" multiple />
+                <input type="submit" value="Upload" />
+            </div>
+        </form>
+        <div class="mt-3">
+            <a href="/homepage.html" class="btn btn-primary">Go to Homepage</a>
+        </div>
+    </div>
+    <script>
+        Dropzone.options.myDropzone = {
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            acceptedFiles: ".jpeg,.jpg,.png,.gif"
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        .button1 {
+            display: inline-block;
+            margin: 20px auto;
+            width: fit-content;
+            border: 2px solid #dc0b0b;
+            padding: 12px 40px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: white;
+            background-color: black;
+            font-weight: 600;
+            transition: 0.5s;
+        }
+
+        .button1:hover {
+            background-color: #dc0b0b;
+            color: black;
+        }
+
+        .imageInput {
+        padding-top: 40px;
+        display: inline-block;
+        margin: 20px auto;
+        padding: 12px 40px;
+        border: 2px solid #dc0b0b;
+        border-radius: 7px;
+        color: white;
+        background-color: black;
+        font-weight: 600;
+        transition: 0.5s;
+        cursor: pointer;
+        text-align: center;
+        overflow: hidden;
+        width: 200px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .imageInput:hover {
+        background-color: #dc0b0b;
+        color: black;
+    }
+
+        .preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        #previewContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"> <!-- Add this div -->
+        <h1>Home</h1>
+        <!-- <input type="file" accept="image/*" multiple id="photoInput" class="imageInput button1">
+        <div id="previewContainer"></div> -->
+        <div class="image-container"> <!-- Add this class -->
+            <img src="addimage.jpeg" width="100px" height="100px" style="margin-right: 35px;">
+            <img src="addimage2.jpeg" width="100px" height="100px" style="margin-right: 35px; margin-left:45px;">
+        </div>
+        <div class="button-container">
+            <button id="addImagesBtn" class="button1" onclick="window.location.href='/addimages'">Add Images</button>
+            <button id="convertBtn" class="button1" onclick="window.location.href='/video'">Convert to Video</button>
+        </div>
+    </div>
+    <!-- <video id="videoPlayer" controls width="500px" height="500px">
+        <source src="C:\Users\sriva\Downloads\Smartest Rick Roll but with a different link. ( 720 X 1280 ).mp4" type="video/mp4" >
+        Your browser does not support the video tag.
+    </video> -->
+    <!-- <button id="viewVideoBtn" class="button1">View Video</button> -->
+    <script>
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            var previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = ''; // Clear the preview container
+
+            Array.from(e.target.files).slice(0, 6).forEach(function(file) { // Limit to 6 images
+                var img = document.createElement('img');
+                img.classList.add('preview');
+
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    img.src = reader.result;
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+
+                previewContainer.appendChild(img);
+            });
+        });
+    </script>
+</body>
+</html>

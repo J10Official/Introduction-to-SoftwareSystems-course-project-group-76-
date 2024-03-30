@@ -1,0 +1,273 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo to Video Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color : black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        .button1 {
+            display: inline-block;
+            margin: 20px auto;
+            width: fit-content;
+            border: 2px solid #dc0b0b;
+            padding: 12px 40px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: white;
+            background-color: black;
+            font-weight: 600;
+            transition: 0.5s;
+        }
+
+        .button1:hover {
+            background-color: #dc0b0b;
+            color: black;
+        }
+
+        #videoOptions {
+            display: grid;
+            gap: 30px;
+        }
+
+        #videoOptions fieldset {
+            background-color: black;
+            padding: 20px;
+            border: 2px solid #dc0b0b;
+            border-radius: 5px;
+        }
+
+        #videoOptions input[type="checkbox"],
+        #videoOptions input[type="text"],
+        #videoOptions select {
+            background-color: black;
+            color: white;
+            border: 2px solid #dc0b0b;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        #videoOptions label {
+            color: white;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        #previewContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the number of columns */
+            gap: 2px; /* Adjust the gap between images */
+            justify-items: center;
+            overflow: auto;
+            max-height: 330px;
+            margin-bottom: 30px;
+        }
+
+        .card-img-top {
+            width: 100%; /* Make the image take up the full width of its container */
+            height: auto; /* Let the image height adjust automatically */
+        }
+
+        .card {
+            border: none; /* Remove the border around the card */
+        }
+        .preview {
+            max-width: 100%;
+            max-height: 100%;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        .selected {
+        border: 5px solid #007bff; /* Adjust the border thickness and color here */
+    }
+    </style>
+    </head>
+    <body>
+        <h1>Photo to Video Converter</h1>
+        <div id="previewContainer" class="row">
+            {% for image in image_data %}
+            <div class="col"> <!-- Adjust the grid column size -->
+                <div class="card">
+                    <img src="{{ image.path }}" class="card-img-top" data-id="{{ image.id }}" onclick="selectImage(this)">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <audio id="audioPlayer" controls>
+            Your browser does not support the audio element.
+        </audio>
+        <form id="videoOptions">
+            <input type="hidden" id="selectedImagesInput" name="selectedImages">
+            <input type="hidden" id="selectedMusicInput" name="selectedMusic">    
+            <fieldset id="bgMusicContainer">
+                <legend>Background Music:</legend>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    <div class="form-group">
+                        <label>Background Music</label>
+                        {% for audio in audio_data %}
+                        <div>
+                            <input type="checkbox" class="form-control" id="backgroundMusic" name="selectedMusicInput" value="{{ audio.id }}" onchange="playMusic('{{ url_for('static', filename=audio.path) }}')">                            <label for="backgroundMusic">{{ audio.name }} - {{ audio.duration }} seconds</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="durationContainer">
+                <legend>Duration:</legend>
+                <input type="text" id="duration" value="3" name="duration">
+            </fieldset>
+            <fieldset id="effectsContainer">
+                <legend>Effects:</legend>
+                <select id="effects" name="effects">
+                    <option value="Fade In">Fade In</option>
+                    <option value="Fade Out">Fade Out</option>
+
+                
+                </select>
+            </fieldset>
+            <fieldset>
+                <legend>Video Options:</legend>
+                <label for="resolution">Resolution:</label>
+                <select id="resolution" name="resolution">
+                    <option value="1280×720">720p</option>
+                    <option value="1920x1080">1080p</option>
+                    <option value="2048×1080">2k</option>
+                </select>
+                <label for="quality">Quality:</label>
+                <select id="quality" name="quality">
+                    <option value="500000">Low</option>
+                    <option value="1500000">Medium</option>
+                    <option value="3500000">High</option>
+                </select>
+                <input type="submit" value="Generate Video" class="button1">
+            </fieldset>
+        </form>
+        {% if session['video_generated'] %}
+            <video id="videoPlayer" controls width="640px" height="360px">
+                <source src="{{ url_for('static', filename='output.mp4', _t=now().timestamp()) }}" type="video/mp4" >
+                Your browser does not support video tag.
+            </video>
+            <a href="{{ url_for('static', filename='output.mp4', _t=now().timestamp()) }}" download class="button1">Download Video</a>
+        {% endif %}
+        <script>
+            document.getElementById('photoInput').addEventListener('change', function(e) {
+            var previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = ''; // Clear the preview container
+
+            Array.from(e.target.files).forEach(function(file) {
+                var img = document.createElement('img');
+                img.classList.add('preview');
+
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    img.src = reader.result;
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+
+                previewContainer.appendChild(img);
+            });
+        });
+        </script>
+    </body>
+    <script>
+        var selectedImages = [];
+    
+        function selectImage(img) {
+            var id = img.dataset.id;
+            if (selectedImages.includes(id)) {
+                selectedImages = selectedImages.filter(function(imageId) {
+                    return imageId !== id;
+                });
+                img.classList.remove('selected'); // Remove the 'selected' class
+            } else {
+                selectedImages.push(id);
+                img.classList.add('selected'); // Add the 'selected' class
+            }
+    
+            // Update the value of the hidden input field
+            document.getElementById('selectedImagesInput').value = selectedImages.join(',');
+        }
+    </script>
+    <script>
+var selectedMusic = [];
+document.querySelectorAll('#backgroundMusic').forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            selectedMusic.push(this.value);
+        } else {
+            var index = selectedMusic.indexOf(this.value);
+            if (index !== -1) {
+                selectedMusic.splice(index, 1);
+            }
+        }
+
+        // Update the value of the hidden input field
+        document.getElementById('selectedMusicInput').value = selectedMusic.join(',');
+    });
+});
+    </script>
+    <!-- below script is just for testing -->
+    <script>
+        document.getElementById('videoOptions').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from being submitted
+
+    var selectedImages = document.getElementById('selectedImagesInput').value;
+    var selectedMusic = document.getElementById('selectedMusicInput').value;
+    var duration = document.getElementById('duration').value;
+    var effects = document.getElementById('effects').value;
+    var resolution = document.getElementById('resolution').value;
+    var quality = document.getElementById('quality').value;
+
+    var formData = new FormData();
+    formData.append('selectedImages', selectedImages);
+    formData.append('selectedMusic', selectedMusic);
+    formData.append('duration', duration);
+    formData.append('effects', effects);
+    formData.append('resolution', resolution);
+    formData.append('quality', quality);
+
+    fetch('/video', { // Replace '/video' with your server's route
+        method: 'POST',
+        body: formData
+    }).then(response => response.text())
+    .then(data => {
+        console.log(data);
+        window.location.reload(); // Refresh the page after the video has been generated
+    })
+    .catch(error => console.error(error));
+});
+        function playMusic(path) {
+            var player = document.getElementById('audioPlayer');
+            player.src = path;
+            player.play();
+        }
+    </script>
+    </html>
+    <!-- change -->
