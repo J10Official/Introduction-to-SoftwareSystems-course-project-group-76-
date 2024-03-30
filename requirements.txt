@@ -76,7 +76,6 @@ pynvim==0.4.2
 pyparsing==2.4.7
 python-dateutil==2.8.2
 pytz==2024.1
-PyYAML==5.4.1
 pyzmq==25.1.2
 requests==2.31.0
 SecretStorage==3.3.1
