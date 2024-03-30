@@ -20,7 +20,7 @@ app.config['UPLOAD_FOLDER'] = 'static/images'  # Update this line
 app.config['SECRET_KEY'] = 'your_secret_key_here'  # Add this line
 jwt = JWTManager(app)
 
-engine = create_engine("cockroachdb://jatin:XnJNGrozqMEp3ZnXKMe-zg@videoappilcation-4166.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full")
+engine = create_engine("cockroachdb://jatin:XnJNGrozqMEp3ZnXKMe-zg@videoappilcation-4166.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full&sslrootcert=root.crt")
 db = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 Base = declarative_base()
