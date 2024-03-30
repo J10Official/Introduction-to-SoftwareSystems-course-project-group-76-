@@ -84,7 +84,6 @@ soupsieve==2.5
 SQLAlchemy==2.0.28
 sqlalchemy-cockroachdb==2.0.2
 stack-data==0.6.3
-systemd-python==234
 tornado==6.4
 tqdm==4.66.2
 traitlets==5.14.1
