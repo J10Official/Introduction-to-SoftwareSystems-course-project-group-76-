@@ -234,4 +234,4 @@ with app.app_context():
     Base.metadata.create_all(bind=engine)
     populate_audio_table()
     
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
